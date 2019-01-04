@@ -1,0 +1,178 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret latitude_int
+  longitude: !secret longitude_int
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 0
+  # metric for Metric, imperial for Imperial
+  unit_system: metric
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: Europe/London
+  # Customization file
+  customize: !include customize.yaml
+
+# Show links to resources in log and frontend
+#introduction:
+# Enables the frontend
+frontend:
+
+# Enables configuration UI
+config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+#http:
+#  api_password: !secret hass_pass
+#  server_port: 8123
+#  ssl_certificate: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/fullchain.pem
+#  ssl_key: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/privkey.pem
+#  base_url: hasstris.duckdns.org:8123
+
+#duckdns:
+#  domain: hasstris
+#  access_token: !secret duck_token
+
+# Checks for available updates
+# Note: This component will send some information about your system to
+# the developers to assist with development of Home Assistant.
+# For more information, please see:
+# https://home-assistant.io/blog/2016/10/25/explaining-the-updater/
+updater:
+  # Optional, allows Home Assistant developers to focus on popular components.
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time
+history:
+
+# View all events in a logbook
+logbook:
+
+# Enables a map showing the location of tracked devices
+map:
+
+# Track the sun
+sun:
+   friendly_name: 'Time of Day'
+
+# Sensors
+sensor:
+  # Weather prediction
+  - platform: yr
+    name: 'Weather'
+
+# Text to speech
+tts:
+  - platform: google
+
+# Cloud
+cloud:
+
+# Tado
+tado:
+  username: 'tristan.j.owen@gmail.com'
+  password: !secret tado_password
+
+
+# Konnected
+konnected:
+  access_token: !secret konnected_token
+  devices:
+    - id: !secret konnected_mac
+      binary_sensors:
+        - zone: 1
+          type: motion
+          name: 'Downstairs Hallway Motion'
+        - zone: 2
+          type: motion
+          name: 'Front Room Motion'
+        - zone: 3
+          type: motion
+          name: 'Living Room Motion'
+        - zone: 4
+          type: motion
+          name: 'Kitchen Motion'
+        - zone: 5
+          type: motion
+          name: 'Hallway Motion'
+
+# Tado Device Tracker
+device_tracker:
+    - platform: 'tado'
+      username: !secret email
+      password: !secret tado_password
+      home_id: !secret tado_home_id
+
+# Reolink camera
+#camera:
+#  - platform: mjpeg
+#    name: 'Porch Camera'
+#    mjpeg_url: !secret porch_camera_url
+
+# Alarm
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    code: !secret alarm_code
+    pending_time: 30
+    delay_time: 30
+    trigger_time: 10
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      pending_time: 0
+      delay_time: 0
+    armed_away:
+      delay_time: 0
+
+# Telegram bot for notifications
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_api
+    allowed_chat_ids:
+      - !secret telegram_id_tris
+      - !secret telegram_id_kelly
+
+##############################
+#          NOTIFIERS         #
+#############################
+
+# Telegram notifier
+notify:
+  - name: telegram_notification
+    platform: telegram
+    chat_id: !secret telegram_id_tris
+# Telegram notifier Kelly
+  - name: telegram_notification_kelly
+    platform: telegram
+    chat_id: !secret telegram_id_kelly
+
+# Pi (command line) notifier - Initially used for SSH commands to other pi
+  - name: mirror_pi_off
+    platform: command_line
+    command: "ssh pi@192.168.0.48 vcgencmd display_power 0"
+
+# Pi (command line) notifier - Initially used for SSH commands to other pi
+  - name: mirror_pi_on
+    platform: command_line
+    command: "ssh pi@192.168.0.48 vcgencmd display_power 1"
+
+# Pi (command line) notifier - Initially used for SSH commands to other pi
+  - name: dashboard_pi_off
+    platform: command_line
+    command: "ssh pi@192.168.0.49 vcgencmd display_power 0"
+
+# Pi (command line) notifier - Initially used for SSH commands to other pi
+  - name: dashboard_pi_on
+    platform: command_line
+    command: "ssh pi@192.168.0.49 vcgencmd display_power 1"
+
+group: !include groups.yaml
+automation: !include_dir_merge_list automations/
+script: !include scripts.yaml

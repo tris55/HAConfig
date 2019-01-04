@@ -1,0 +1,31 @@
+sonos:
+  name: Sonos
+  entities:
+    - media_player.bathroom
+    - media_player.front_room
+    - media_player.kitchen
+    - media_player.living_room
+    - media_player.master_bedroom
+    - media_player.sophies_room
+
+people:
+  name: People
+  entities:
+    - device_tracker.triss_iphone
+    - device_tracker.kellys_phone
+
+motion:
+  name: 'Motion Sensors'
+  entities:
+    - binary_sensor.downstairs_hallway_motion
+    - binary_sensor.front_room_motion
+    - binary_sensor.living_room_motion
+    - binary_sensor.kitchen_motion
+    - binary_sensor.hallway_motion
+
+alarm:
+  name: Alarm
+  view: true
+  entities:
+    - group.motion
+    - alarm_control_panel.home_alarm
