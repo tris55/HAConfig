@@ -1,0 +1,105 @@
+##########################################
+#           OTHER AUTOMATIONS            #
+##########################################
+
+# Mirror Automation - Turn mirror monitor on when someone is home
+  - id: 'someonehomemirroron'
+    alias: 'Someone home mirror on'
+    trigger:
+      - platform: state
+        entity_id: group.people
+        to: 'home'
+    action:
+      - service: notify.mirror_pi_on
+        data:
+          message: 'Mirror on'
+
+# Dashboard Automation - Turn dashboard off whilst I'm away
+  - id: 'trisnothomedashboardoff'
+    alias: 'Tris not home Dashboard off'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.triss_iphone
+        to: 'not_home'
+    action:
+      - service: notify.dashboard_pi_off
+        data:
+          message: 'Dashboard off'
+
+# Dashboard Automation - Turn dashboard off whilst I'm away
+  - id: 'trishomedashboardon'
+    alias: 'Tris home Dashboard on'
+    trigger:
+      - platform: state
+        entity_id: device_tracker.triss_iphone
+        to: 'home'
+    action:
+      - service: notify.dashboard_pi_on
+        data:
+          message: 'Dashboard on'
+
+# Turn Mirror Pi on
+  - id: 'mirroronfromtelegram'
+    alias: 'Mirror on from Telegram'
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/mirroron'
+    action:
+      - service: notify.mirror_pi_on
+        data:
+          message: 'Mirror on'
+
+# Turn Mirror Pi off
+  - id: 'mirrorofffromtelegram'
+    alias: 'Mirror off from Telegram'
+    trigger:
+    alias: 'Arm alarm home from Telegram'
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/mirroroff'
+    action:
+      - service: notify.mirror_pi_off
+        data:
+          message: 'Mirror off'
+
+# Turn Dashboard Pi on
+  - id: 'dashboardonfromtelegram'
+    alias: 'Dashboard on from Telegram'
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/dashboardon'
+    action:
+      - service: notify.dashboard_pi_on
+        data:
+          message: 'Dashboard on'
+
+# Turn Dashboard Pi off
+  - id: 'dashboardofffromtelegram'
+    alias: 'Dashboard off from Telegram'
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/dashboardoff'
+    action:
+      - service: notify.dashboard_pi_off
+        data:
+          message: 'Dashboard off'
+
+# Test Telegram notification of boot
+  - id: 'telegramboot'
+    alias: 'Telegram bot to notify on boot'
+    trigger:
+    - event: start
+      platform: homeassistant
+    condition: []
+    action:
+    - service: notify.telegram_notification
+      data:
+        message: 'Home Assistant on Pi booted'

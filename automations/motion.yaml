@@ -1,0 +1,112 @@
+##########################################
+#                MOTION                  #
+##########################################
+
+# Automation motion hallway
+  - id: 'motionhallwayfull'
+    alias: "Upstairs hallway - turn on at night, full"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hallway_motion
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: and
+      conditions:
+        - condition: numeric_state
+          entity_id: sun.sun
+          value_template: '{{ state.attributes.elevation }}'
+          below: 0
+        - condition: time
+          before: '21:30:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.hallway_lights
+
+# Automation motion downstairs hallway
+  - id: 'motionhallwaydown'
+    alias: "Upstairs hallway - turn on at night, full, from downstairs"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.downstairs_hallway_motion
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: and
+      conditions:
+        - condition: numeric_state
+          entity_id: sun.sun
+          value_template: '{{ state.attributes.elevation }}'
+          below: 0
+        - condition: time
+          before: '21:30:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.hallway_lights
+
+# Automation motion hallway dimmed
+  - id: 'motionhallwaydimmed'
+    alias: "Upstairs hallway - turn on at night, dimmed, from downstairs"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hallway_motion
+        from: 'off'
+        to: 'on'
+    condition:
+        condition: or
+        conditions:
+          - condition: time
+            after: '21:30:00'
+          - condition: time
+            before: '07:00:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.hallway_lights
+        data:
+          brightness: 100
+          kelvin: 2700
+
+# Automation motion hallway off
+  - id: 'motionhallwayoff'
+    alias: "Upstairs hallway - turn off at night"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hallway_motion
+        from: 'on'
+        to: 'off'
+        for: '00:00:30'
+    condition:
+      - condition: state
+        state: 'on'
+        entity_id: light.hallway_lights
+    action:
+      - service: light.turn_off
+        entity_id: light.hallway_lights
+
+# Automation motion hallway off from downstairs
+  - id: 'motionhallwayoffdownstairs'
+    alias: "Upstairs hallway - turn off from downstairs"
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.downstairs_hallway_motion
+        from: 'on'
+        to: 'off'
+        for: '00:00:10'
+    condition:
+        condition: and
+        conditions:
+          - condition: state
+            state: 'on'
+            entity_id: light.hallway_lights
+          - condition: template
+            value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.upstairs_hallway__turn_on_at_night_full.attributes.last_triggered) | int > 60 }}'
+          - condition: template
+            value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.upstairs_hallway__turn_on_at_night_dimmed.attributes.last_triggered) | int > 60 }}'
+    action:
+      - service: light.turn_off
+        entity_id: light.hallway_lights
