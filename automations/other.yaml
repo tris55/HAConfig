@@ -55,8 +55,6 @@
   - id: 'mirrorofffromtelegram'
     alias: 'Mirror off from Telegram'
     trigger:
-    alias: 'Arm alarm home from Telegram'
-    trigger:
       - platform: event
         event_type: telegram_command
         event_data:
