@@ -13,6 +13,7 @@ people:
   entities:
     - device_tracker.triss_iphone
     - device_tracker.kellys_phone
+    - device_tracker.sophs_phone
 
 motion:
   name: 'Motion Sensors'
@@ -29,3 +30,4 @@ alarm:
   entities:
     - group.motion
     - alarm_control_panel.home_alarm
+

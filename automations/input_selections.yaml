@@ -1,0 +1,183 @@
+# Living room light on/off
+- alias: 'Living room lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.livingroom_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.living_room
+- alias: 'Livingroom lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.livingroom_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.living_room
+
+# Front room light on/off
+- alias: 'Front room lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.front_room_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.front_room
+- alias: 'Front room lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.front_room_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.front_room
+
+# Kitchen light on/off
+- alias: 'Kitchen lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.kitchen_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.kitchen
+- alias: 'Kitchen lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.kitchen_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.kitchen
+
+# Downstairs hallway light on/off
+- alias: 'Downstairs hallway lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.downstairs_hallway_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.downstairs_hallway
+- alias: 'Downstairs hallway lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.downstairs_hallway_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.downstairs_hallway
+
+# Hallway light on/off
+- alias: 'Hallway lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.hallway_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.hallway_lights
+- alias: 'Hallway lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.hallway_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.hallway_lights
+
+# Bedroom light on/off
+- alias: 'Bedroom lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.bedroom_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.bedroom
+- alias: 'Bedroom lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.bedroom_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.bedroom
+
+# Sophies bedroom light on/off
+- alias: 'Sophies bedroom lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.sophies_bedroom_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.sophies_bedroom
+- alias: 'Bedroom lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.sophies_bedroom_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.sophies_bedroom
+
+# Den light on/off
+- alias: 'Den lights switch on'
+  trigger:
+    - platform: state
+      entity_id: input_select.den_light_mode
+      to: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.den
+- alias: 'Den lights switch off'
+  trigger:
+    - platform: state
+      entity_id: input_select.den_light_mode
+      to: 'off'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.den

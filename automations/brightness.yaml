@@ -1,0 +1,176 @@
+- alias: 'Adjust living room lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.living_room_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.living_room
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_light_room.state|int}}
+        entity_id:
+          - light.living_room
+
+- alias: 'Adjust front room lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.front_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.front_room
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_room.state|int}}
+        entity_id:
+          - light.front_room
+
+- alias: 'Adjust downstairs hallway lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.downstairs_hallway_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.downstairs_hallway
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_room.state|int}}
+        entity_id:
+          - light.downstairs_hallway
+
+- alias: 'Adjust hallway lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.hallway_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.hallway_lights
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_room.state|int}}
+        entity_id:
+          - light.hallway_lights
+
+- alias: 'Adjust kitchen lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.kitchen_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.kitchen
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_light_room.state|int}}
+        entity_id:
+          - light.kitchen
+
+- alias: 'Adjust bedroom lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.bedroom_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.bedroom
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_light_room.state|int}}
+        entity_id:
+          - light.bedroom
+
+- alias: 'Adjust Sophies bedroom lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.sophies_bedroom_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.sophies_bedroom
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_room.state|int}}
+        entity_id:
+          - light.sophies_bedroom
+
+- alias: 'Adjust Den lights brightness'
+  trigger:
+    - platform: time
+      minutes: '/1'
+      seconds: 00
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.den_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: light.den
+        state: 'on'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_light_room.state|int}}
+        entity_id:
+          - light.den
+
