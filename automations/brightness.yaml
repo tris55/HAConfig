@@ -16,7 +16,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_light_room.state|int}}
+          {{ states.sensor.target_brightness_light_rooms.state|int}}
         entity_id:
           - light.living_room
 
@@ -38,7 +38,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_dark_room.state|int}}
+          {{ states.sensor.target_brightness_dark_rooms.state|int}}
         entity_id:
           - light.front_room
 
@@ -60,7 +60,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_dark_room.state|int}}
+          {{ states.sensor.target_brightness_dark_rooms.state|int}}
         entity_id:
           - light.downstairs_hallway
 
@@ -82,7 +82,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_dark_room.state|int}}
+          {{ states.sensor.target_brightness_dark_rooms.state|int}}
         entity_id:
           - light.hallway_lights
 
@@ -104,7 +104,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_light_room.state|int}}
+          {{ states.sensor.target_brightness_light_rooms.state|int}}
         entity_id:
           - light.kitchen
 
@@ -126,7 +126,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_light_room.state|int}}
+          {{ states.sensor.target_brightness_light_rooms.state|int}}
         entity_id:
           - light.bedroom
 
@@ -148,7 +148,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_dark_room.state|int}}
+          {{ states.sensor.target_brightness_dark_rooms.state|int}}
         entity_id:
           - light.sophies_bedroom
 
@@ -170,7 +170,7 @@
     - service: light.turn_on
       data_template:
         brightness_pct: >
-          {{ states.sensor.target_brightness_light_room.state|int}}
+          {{ states.sensor.target_brightness_light_rooms.state|int}}
         entity_id:
           - light.den
 

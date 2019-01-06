@@ -229,6 +229,43 @@
         entity_id:
           - light.hallway_lights
 
+# Automation motion downstairs hallway
+- alias: "Hallway first lights presence downstairs"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.downstairs_hallway_motion
+      to: 'on'
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.hallway_light_mode
+        state: 'auto'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_rooms.state|int }}
+        entity_id: 
+          - light.hallway_spot_1
+    - delay:
+        milliseconds: 500    
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_rooms.state|int }}
+        entity_id: 
+          - light.hallway_spot_2        
+    - delay:
+        milliseconds: 500
+    - service: light.turn_on
+      data_template:
+        brightness_pct: >
+          {{ states.sensor.target_brightness_dark_rooms.state|int }}
+        entity_id: 
+          - light.hallway_spot_4
+
 - alias: 'Hallway lights presence off'
   trigger:
     - platform: state
@@ -256,6 +293,30 @@
         entity_id:
           - light.hallway_lights
 
+# Automation motion hallway off from downstairs
+- alias: "Hallway first lights off from downstairs"
+  initial_state: 'on'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.downstairs_hallway_motion
+      from: 'on'
+      to: 'off'
+      for: '00:00:10'
+  condition:
+      condition: and
+      conditions:
+        - condition: state
+          state: 'on'
+          entity_id: light.hallway_lights
+        - condition: template
+          value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.hallway_lights_presence_on.attributes.last_triggered) | int > 60 }}'
+  action:
+    - service: light.turn_off
+      entity_id:
+        - light.hallway_spot_1
+        - light.hallway_spot_2
+        - light.hallway_spot_4
+
 ##### KITCHEN #####
 
 - alias: 'kitchen lights presence on'
@@ -267,7 +328,7 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: light.kitchen_lights
+          entity_id: light.kitchen
           state: 'off'
         - condition: state
           entity_id: input_select.kitchen_light_mode
