@@ -1,3 +1,22 @@
+
+- alias: 'Set house to bedtime/nightime'
+  trigger:
+    - platform: time
+      at: '21:30:00'
+  action:
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.bedtime
+
+- alias: 'Set house out of bedtime/nightime'
+  trigger:
+    - platform: time
+      at: '07:00:00'
+  action:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.bedtime
+
 - alias: 'Adjust living room lights brightness'
   trigger:
     - platform: time
@@ -64,6 +83,14 @@
         entity_id:
           - light.downstairs_hallway
 
+
+####################################################
+#    NOTE THAT THIS IS SPECIAL, ONLY CHECKING A    #
+#              SPECIFIC LIGHT (SPOT_5)             #
+####################################################
+
+# This is because the downstairs motion sensor is triggering the first three lights
+
 - alias: 'Adjust hallway lights brightness'
   trigger:
     - platform: time
@@ -76,7 +103,7 @@
         entity_id: input_select.hallway_light_mode
         state: 'auto'
       - condition: state
-        entity_id: light.hallway_lights
+        entity_id: light.hallway_spot_5
         state: 'on'
   action:
     - service: light.turn_on
@@ -152,6 +179,11 @@
         entity_id:
           - light.sophies_bedroom
 
+####################################################
+#    NOTE THAT THIS IS SPECIAL, ONLY CHECKING A    #
+#              SPECIFIC LIGHT (SPOT_5)             #
+####################################################
+
 - alias: 'Adjust Den lights brightness'
   trigger:
     - platform: time
@@ -164,7 +196,7 @@
         entity_id: input_select.den_light_mode
         state: 'auto'
       - condition: state
-        entity_id: light.den
+        entity_id: light.main_office_light
         state: 'on'
   action:
     - service: light.turn_on
@@ -172,5 +204,5 @@
         brightness_pct: >
           {{ states.sensor.target_brightness_light_rooms.state|int}}
         entity_id:
-          - light.den
+          - light.main_office_light
 

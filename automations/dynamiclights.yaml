@@ -67,6 +67,28 @@
         entity_id:
           - light.living_room
 
+- alias: 'Livingroom lights off at night'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.living_room_motion
+      to: 'off'
+      for:
+        seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.living_room_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: input_boolean.bedtime
+        state: 'on'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.living_room
+
 ##### FRONT ROOM #####
 
 - alias: 'Front room lights presence on'
@@ -130,6 +152,28 @@
                   minutes: 2
               - condition: template
                 value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.front_room.last_changed)) <= 300 }}"
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.front_room
+
+- alias: 'frontroom lights off at night'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.front_room_motion
+      to: 'off'
+      for:
+        seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.front_room_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: input_boolean.bedtime
+        state: 'on'
   action:
     - service: light.turn_off
       data:
@@ -205,6 +249,28 @@
         entity_id:
           - light.downstairs_hallway
 
+- alias: 'downstairs hallway lights off at night'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.downstairs_hallway_motion
+      to: 'off'
+      for:
+        seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.downstairs_hallway_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: input_boolean.bedtime
+        state: 'on'
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.downstairs_hallway
+
 ##### HALLWAY #####
 
 - alias: 'Hallway lights presence on'
@@ -216,7 +282,7 @@
     - condition: and
       conditions:
         - condition: state
-          entity_id: light.hallway_lights
+          entity_id: light.hallway_spot_5
           state: 'off'
         - condition: state
           entity_id: input_select.hallway_light_mode
@@ -280,9 +346,6 @@
         entity_id: input_select.hallway_light_mode
         state: 'auto'
       - condition: state
-        entity_id: input_boolean.bedtime
-        state: 'off'
-      - condition: state
         entity_id: binary_sensor.hallway_motion
         state: 'off'
         for:
@@ -309,7 +372,7 @@
           state: 'on'
           entity_id: light.hallway_lights
         - condition: template
-          value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.hallway_lights_presence_on.attributes.last_triggered) | int > 60 }}'
+          value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.hallway_lights_presence_on.attributes.last_triggered) | int > 30 }}'
   action:
     - service: light.turn_off
       entity_id:
@@ -380,6 +443,28 @@
                   minutes: 2
               - condition: template
                 value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.kitchen.last_changed)) <= 300 }}"
+  action:
+    - service: light.turn_off
+      data:
+        entity_id:
+          - light.kitchen
+
+- alias: 'kitchen lights off at night'
+  trigger:
+    - platform: state
+      entity_id: binary_sensor.kitchen_motion
+      to: 'off'
+      for:
+        seconds: 30
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_select.kitchen_light_mode
+        state: 'auto'
+      - condition: state
+        entity_id: input_boolean.bedtime
+        state: 'on'
   action:
     - service: light.turn_off
       data:

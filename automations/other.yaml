@@ -38,6 +38,20 @@
         data:
           message: 'Dashboard on'
 
+# Set living room to movie mode
+  - id: 'moviemode'
+    alias: 'Movie Mode'
+    trigger:
+      - platform: event
+        event_type: telegram_command
+        event_data:
+          command: '/moviemode'
+    action:
+      - service: input_select.select_option
+        data:
+          entity_id: input_select.living_room_light_mode
+          option: movie     
+
 # Turn Mirror Pi on
   - id: 'mirroronfromtelegram'
     alias: 'Mirror on from Telegram'

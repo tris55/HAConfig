@@ -1,5 +1,5 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
+# Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude_int
@@ -22,12 +22,21 @@ frontend:
 config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-#http:
-#  api_password: !secret hass_pass
-#  server_port: 8123
+http:
+  api_password: !secret hass_pass
+  server_port: 5555
+#  base_url: 82.23.242.172:8123
 #  ssl_certificate: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/fullchain.pem
 #  ssl_key: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/privkey.pem
+#  base_url: 82.23.242.172:8123
 #  base_url: hasstris.duckdns.org:8123
+
+# UPnP, configuration from home-assistant.io/components/upnp/
+upnp:
+  port_mapping: true
+  local_ip: 192.168.0.51
+  ports:
+    hass: 5555
 
 #duckdns:
 #  domain: hasstris
@@ -93,7 +102,7 @@ sensor:
         friendly_name: "Target brightness dark rooms"
         unit_of_measurement: "%"
         value_template: >
-          {%  set bedtime_value = 10 %}
+          {%  set bedtime_value = 1 %}
           {%  set maximum = 100 %}
           {%  set a = -0.0002 %}
           {%  set c = 0 %}
