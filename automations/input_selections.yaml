@@ -2,7 +2,7 @@
 - alias: 'Living room lights switch on'
   trigger:
     - platform: state
-      entity_id: input_select.livingroom_light_mode
+      entity_id: input_select.living_room_light_mode
       to: 'on'
   action:
     - service: light.turn_on
@@ -13,13 +13,31 @@
 - alias: 'Livingroom lights switch off'
   trigger:
     - platform: state
-      entity_id: input_select.livingroom_light_mode
+      entity_id: input_select.living_room_light_mode
       to: 'off'
   action:
     - service: light.turn_off
       data:
         entity_id:
           - light.living_room
+- alias: 'Livingroom lights switch movie'
+  trigger:
+    - platform: state
+      entity_id: input_select.living_room_light_mode
+      to: 'movie'
+  action:
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 10
+        entity_id:
+          - light.living_room_light
+    - service: light.turn_on
+      data_template:
+        brightness_pct: 100
+        entity_id:
+          - light.living_room_lamp_1
+          - light.living_room_lamp_2
+          - light.living_room_spot
 
 # Front room light on/off
 - alias: 'Front room lights switch on'

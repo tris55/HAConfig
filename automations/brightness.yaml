@@ -7,6 +7,10 @@
     - service: input_boolean.turn_on
       data:
         entity_id: input_boolean.bedtime
+    - service: input_select.select_option
+      data:
+        entity_id: input_select.living_room_light_mode
+        option: auto
 
 - alias: 'Set house out of bedtime/nightime'
   trigger:

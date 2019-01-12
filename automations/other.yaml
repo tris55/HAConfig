@@ -38,7 +38,7 @@
         data:
           message: 'Dashboard on'
 
-# Set living room to movie mode
+# Set living room to movie mode from Telegram
   - id: 'moviemode'
     alias: 'Movie Mode'
     trigger:
@@ -51,6 +51,25 @@
         data:
           entity_id: input_select.living_room_light_mode
           option: movie     
+      - service: light.turn_on
+        data_template:
+          brightness_pct: 20
+          entity_id:
+            - light.living_room
+
+# Set living room to movie mode from IFTTT
+  - id: 'moviemodeifttt'
+    alias: 'Movie Mode IFTTT'
+    trigger:
+      - platform: event
+        event_type: ifttt_webhook_received
+        event_data:
+          action: call_service
+    action:
+      service_template: '{{ trigger.event.data.service }}'
+      data_template:
+        entity_id: '{{ trigger.event.data.entity_id }}'
+        option: '{{ trigger.event.data.option }}'
 
 # Turn Mirror Pi on
   - id: 'mirroronfromtelegram'

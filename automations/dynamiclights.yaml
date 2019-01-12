@@ -58,9 +58,9 @@
                 entity_id: binary_sensor.living_room_motion
                 state: 'off'
                 for:
-                  minutes: 2
+                  minutes: 4
               - condition: template
-                value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.living_room.last_changed)) <= 300 }}"
+                value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.living_room.last_changed)) <= 360 }}"
   action:
     - service: light.turn_off
       data:
@@ -149,9 +149,9 @@
                 entity_id: binary_sensor.front_room_motion
                 state: 'off'
                 for:
-                  minutes: 2
+                  minutes: 4
               - condition: template
-                value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.front_room.last_changed)) <= 300 }}"
+                value_template: "{{ (as_timestamp(now())-as_timestamp(states.light.front_room.last_changed)) <= 360 }}"
   action:
     - service: light.turn_off
       data:
