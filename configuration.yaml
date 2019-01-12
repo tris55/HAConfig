@@ -1,5 +1,5 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
+# Name of the location where Home Assistant is running
   name: Home
   # Location required to calculate the time the sun rises and sets
   latitude: !secret latitude_int
@@ -22,12 +22,20 @@ frontend:
 config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-#http:
-#  api_password: !secret hass_pass
-#  server_port: 8123
+http:
+  api_password: !secret hass_pass
+#  server_port: 5555
+#  base_url: 82.22.159.176:5555
 #  ssl_certificate: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/fullchain.pem
 #  ssl_key: /home/homeassistant/dehydrated/certs/hasstris.duckdns.org/privkey.pem
-#  base_url: hasstris.duckdns.org:8123
+  base_url: hasstris.duckdns.org
+
+# UPnP, configuration from home-assistant.io/components/upnp/
+#upnp:
+#  port_mapping: true
+#  local_ip: 192.168.0.51
+#  ports:
+#    hass: 5555
 
 #duckdns:
 #  domain: hasstris
@@ -93,14 +101,13 @@ sensor:
         friendly_name: "Target brightness dark rooms"
         unit_of_measurement: "%"
         value_template: >
-          {%  set bedtime_value = 10 %}
+          {%  set bedtime_value = 5 %}
           {%  set maximum = 100 %}
-          {%  set a = -0.0002 %}
-          {%  set c = 0 %}
-          {%  set n = 100-c %}
-          {%  set minimum = 10 %}
+          {%  set a = 12000 %}
+          {%  set c = 3000 %}
+          {%  set minimum = 5 %}
           {%  set i = states('sensor.outside_light') | float %}
-          {%  set p = (n*e**(a*i)+c)*8 %}
+          {%  set p = (1-((i-c)/a))*100 %}
           {% if is_state('input_boolean.bedtime','on') %}
             {{ bedtime_value | int }}
           {% else %}
@@ -116,14 +123,12 @@ sensor:
         friendly_name: "Target brightness light rooms"
         unit_of_measurement: "%"
         value_template: >
-          {%  set bedtime_value = 10 %}
+          {%  set bedtime_value = 5 %}
           {%  set maximum = 100 %}
-          {%  set a = -0.0002 %}
-          {%  set c = 20 %}
-          {%  set n = 100-c %}
-          {%  set minimum = 10 %}
+          {%  set a = 12000 %}
+          {%  set minimum = 5 %}
           {%  set i = states('sensor.outside_light') | float %}
-          {%  set p = (n*e**(a*i)+c)*8 %}
+          {%  set p = (1-(i/a))*100 %}
           {% if is_state('input_boolean.bedtime','on') %}
             {{ bedtime_value | int }}
           {% else %}
@@ -148,12 +153,19 @@ tado:
   username: 'tristan.j.owen@gmail.com'
   password: !secret tado_password
 
+logger:
+  default: warning
+#  logs:
+#    homeassistant.components.konnected: debug
 
 # Konnected
 konnected:
   access_token: !secret konnected_token
+  api_host: http://192.168.0.51:8123
   devices:
     - id: !secret konnected_mac
+      host: 192.168.0.136
+      port: 14892
       binary_sensors:
         - zone: 1
           type: motion
@@ -202,10 +214,20 @@ alarm_control_panel:
 
 media_player:
   - platform: samsungtv
-    host: 192.168.0.32
+    host: 192.168.0.44
     name: Living Room TV
     mac: 78:BD:BC:E2:C4:98
     port: 8001
+
+sonos:
+  media_player:
+    hosts:
+      - 192.168.0.244
+      - 192.168.0.180
+      - 192.168.0.167
+      - 192.168.0.171
+      - 192.168.0.126
+      - 192.168.0.101
 
 # Telegram bot for notifications
 telegram_bot:
@@ -242,12 +264,12 @@ notify:
 # Pi (command line) notifier - Initially used for SSH commands to other pi
   - name: dashboard_pi_off
     platform: command_line
-    command: "ssh pi@192.168.0.49 vcgencmd display_power 0"
+    command: "ssh pi@192.168.0.247 vcgencmd display_power 0"
 
 # Pi (command line) notifier - Initially used for SSH commands to other pi
   - name: dashboard_pi_on
     platform: command_line
-    command: "ssh pi@192.168.0.49 vcgencmd display_power 1"
+    command: "ssh pi@192.168.0.247 vcgencmd display_power 1"
 
 ####################################
 #          INPUT SELECTORS         #
